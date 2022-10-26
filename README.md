@@ -1,15 +1,17 @@
-# RX_JS_SERVERLESS_CHAT
+# NG - NET
 
-Is It Possible To Make IT?
-
-Let seen Together :)
-
-Contact on : kahean@hotmail.com (4 any Collabration ..; INVESTORS, CODER, DESIGNERS, SOCIAL MEDIA EXPERTs)
+Angular RX JS
+NET WEBSOCKET REDIS
 
 
 
 Thoughts 
 
+  0  BASIC CHAT 
+  
+    + TEXT
+    ...
+    
   1  With Good ( Random Screen QR Key Based Asymetric) Encryption :P 
   
     + I have Codes On .NET Just Make it Functional TS 
@@ -22,8 +24,12 @@ Thoughts
   
     ?  Edited By (1, 2, Many) User  (Consructor Of Create Talk Option)   
     
-  4  With OTP Register (Price Adding Purchase Price From AppStore)
+  4  With OTP Register
   
-    +  My Engineering Can Not Be Free Please!.. (Eller Cebe Bey Hanım (Bebelere Beleş) Efendiler.)
+    +  ITs Free
+    
+  5 Money Transfer With Banks APP 
+  
+    + Create BLIK SMS Request With Choosed BLIK GSM Number
     
  

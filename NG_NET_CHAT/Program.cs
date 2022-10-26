@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using NG_NET_CHAT.Data;
+using NG_NET_CHAT.Hubs;
 using NG_NET_CHAT.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,8 @@ builder.Services.AddAuthentication()
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -45,6 +48,16 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseIdentityServer();
 app.UseAuthorization();
+
+app.UseWebSockets(new WebSocketOptions
+{
+    KeepAliveInterval = TimeSpan.FromSeconds(120),
+});
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<ChatHub>("/hub/chat");
+});
 
 app.MapControllerRoute(
     name: "default",

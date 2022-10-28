@@ -54,16 +54,13 @@ app.UseWebSockets(new WebSocketOptions
     KeepAliveInterval = TimeSpan.FromSeconds(120),
 });
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapHub<ChatHub>("/hub/chat");
-});
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller}/{action=Index}/{id?}");
 app.MapRazorPages();
 
-app.MapFallbackToFile("index.html"); ;
+app.MapFallbackToFile("index.html");
+
+app.MapHub<ChatHub>("chat");
 
 app.Run();

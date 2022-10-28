@@ -5,9 +5,6 @@ using NG_NET_CHAT.Hubs;
 
 namespace NG_NET_CHAT.Controllers
 {
-    [Authorize]
-    [ApiController]
-    [Route("[controller]")]
     public class ChatController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

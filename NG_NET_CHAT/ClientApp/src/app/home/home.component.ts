@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { HttpClient } from '@microsoft/signalr';
 import { HubConnectionBuilder } from '@microsoft/signalr';
 
 @Component({
@@ -9,15 +10,32 @@ export class HomeComponent {
   //private connection: signalR.HubConnection;
   messages: any;
   connection: any;
+  _baseUrl: string;
   hideJoin: boolean | undefined;
   userName: string | undefined;
+  constructor( @Inject('BASE_URL') baseUrl: string) {
+    this._baseUrl = baseUrl;
+  }
   ngOnInit(): void {
     this.initWebSocket();
+    this.connection.start();
   }
 
+
+
   initWebSocket() {
+
+    let connection = new HubConnectionBuilder()
+    .withUrl("https://localhost:44498/Chat")
+    .build();
+  connection.on("ReceiveAllMessage", data => {
+    console.log("REceived Data", data);
+  });
+  connection.start()
+    .then(() => connection.invoke("ReceiveAllMessage", "Hello"));
+      ;
     this.connection = new HubConnectionBuilder()
-      .withUrl('/hub/chat')
+      .withUrl(this._baseUrl + 'hub/chat')
       .build();
 
     this.connection.on('messageReceived', (from: string, body: string) => {

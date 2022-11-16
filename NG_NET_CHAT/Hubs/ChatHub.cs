@@ -4,12 +4,19 @@ namespace NG_NET_CHAT.Hubs
 {
     public class ChatHub : Hub
     {
-        static readonly Dictionary<string, string> Users = new Dictionary<string, string>();
+        static readonly Dictionary<string, UserInfo> Users = new Dictionary<string, UserInfo>();
         public async Task Register(string username)
         {
-            if (Users.ContainsKey(username))
+
+            var indexExistingUser = Users.Keys.ToList().IndexOf(username);
+            if (indexExistingUser < 0)
             {
-                Users.Add(username, this.Context.ConnectionId);
+                Users.Add(username,
+                    new UserInfo()
+                    {
+                        ConnectionId = this.Context.ConnectionId,
+                        UserId = username
+                    });
             }
 
             await Clients.All.SendAsync(WebSocketActions.USER_JOINED, username);
@@ -25,6 +32,12 @@ namespace NG_NET_CHAT.Hubs
         {
             await Clients.All.SendAsync(WebSocketActions.MESSAGE_RECEIVED, username, message);
         }
+    }
+
+    public class UserInfo
+    {
+        public string? UserId { get; set; }
+        public string? ConnectionId { get; set; }
     }
 
     public struct WebSocketActions

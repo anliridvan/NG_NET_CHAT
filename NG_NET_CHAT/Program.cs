@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
@@ -23,10 +24,18 @@ builder.Services.AddIdentityServer()
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
 
-builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 builder.Services.AddSignalR();
+
+
+builder.Services.AddControllers();
+
+builder.Services.AddOptions();
+
+
+builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 
@@ -49,10 +58,6 @@ app.UseAuthentication();
 app.UseIdentityServer();
 app.UseAuthorization();
 
-app.UseWebSockets(new WebSocketOptions
-{
-    KeepAliveInterval = TimeSpan.FromSeconds(120),
-});
 
 app.MapControllerRoute(
     name: "default",
@@ -61,6 +66,16 @@ app.MapRazorPages();
 
 app.MapFallbackToFile("index.html");
 
-app.MapHub<ChatHub>("chat");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<ChatHub>("/chathub", options =>
+    {
+        options.Transports =
+            HttpTransportType.WebSockets |
+            HttpTransportType.LongPolling;
+    });
+});
+
+app.UseSwaggerUI(c => { c.SwaggerEndpoint("v1/swagger.json", ".Net Chat API V1"); });
 
 app.Run();

@@ -1,14 +1,108 @@
-<h1>Hello, world!</h1>
-<p>Multi Chat Test</p>
-<ul>
-  <li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
-  <li><a href='https://angular.io/'>Angular</a> and <a href='http://www.typescriptlang.org/'>TypeScript</a> for client-side code</li>
-  <li><a href='http://getbootstrap.com/'>Bootstrap</a> for layout and styling</li>
-</ul>
-<p>To help you get started, we've also set up:</p>
-<ul>
-  <li><strong>Client-side navigation</strong>. For example, click <em>Counter</em> then <em>Back</em> to return here.</li>
-  <li><strong>Angular CLI integration</strong>. In development mode, there's no need to run <code>ng serve</code>. It runs in the background automatically, so your client-side resources are dynamically built on demand and the page refreshes when you modify any file.</li>
-  <li><strong>Efficient production builds</strong>. In production mode, development-time features are disabled, and your <code>dotnet publish</code> configuration automatically invokes <code>ng build</code> to produce minified, ahead-of-time compiled JavaScript files.</li>
-</ul>
-<p>The <code>ClientApp</code> subdirectory is a standard Angular CLI application. If you open a command prompt in that directory, you can run any <code>ng</code> command (e.g., <code>ng test</code>), or use <code>npm</code> to install extra packages into it.</p>
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-md-4 col-xl-3 chat">
+      <div class="card mb-sm-3 mb-md-0 contacts_card">
+        <div class="card-header">
+          <div class="input-group">
+            <input type="text" placeholder="Search..." name="" class="form-control search">
+            <div class="input-group-prepend">
+              <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body contacts_body">
+          <ul class="contacts">
+            <li style="cursor: pointer;" [class.active]="item.isActive" *ngFor="let item of users">
+              <div class="d-flex bd-highlight">
+                <div class="img_cont">
+                  <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+                  <span class="online_icon" [class.offline]="!item.isOnline"></span>
+                </div>
+                <div class="user_info">
+                  <span>{{item.firstName}} {{item.lastName}}</span>
+
+                </div>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+        <!-- <div class="card-footer"></div> -->
+      </div>
+    </div>
+    <div class="col-md-8 col-xl-6 chat">
+      <div class="card">
+        <div class="card-header msg_head ">
+          <div class="d-flex bd-highlight">
+            <div class="img_cont">
+              <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg" class="rounded-circle user_img">
+              <span class="online_icon"></span>
+            </div>
+            <div class="user_info">
+              <span>Chat with {{chatUser?.firstName}} {{chatUser?.lastName}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-body msg_card_body">
+          <div *ngFor="let m of displayMessages">
+            <div class="messageItem">
+              <section>
+                <i *ngIf="m.type==='recieved'" class="fa fa-ellipsis-h messageListIcon" aria-hidden="true"
+                  style="display: none;" id="{{m.id}}" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false"></i>
+                <!-- <ul class="dropdown-menu userList" aria-labelledby="{{m.id}}">
+                  <li><a class="dropdown-item mouseCursor" (click)="deleteMessage(m,'DeleteForMe',false)">Remove Only
+                      For Me</a></li>
+                </ul> -->
+              </section>
+              <div class="d-flex justify-content-start mb-4" *ngIf="m.type==='recieved' && !m.isReceiverDeleted">
+                <div class="img_cont_msg">
+                  <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
+                    class="rounded-circle user_img_msg">
+                </div>
+                <div class="msg_cotainer">
+                  {{m.content}}
+                  <span class="msg_time">8:40 AM, Today</span>
+                </div>
+              </div>
+            </div>
+            <div class="messageItem">
+              <section>
+                <i *ngIf="m.type==='sent'" class="fa fa-ellipsis-h messageListIcon" aria-hidden="true"
+                  style="display: none;" id="{{m.id}}" data-toggle="dropdown" aria-haspopup="true"
+                  aria-expanded="false"></i>
+                <!-- <ul class="dropdown-menu userList" aria-labelledby="{{m.id}}">
+                  <li><a class="dropdown-item mouseCursor" (click)="deleteMessage(m,'DeleteForMe',true)">Remove Only For
+                      Me</a></li>
+                  <li><a class="dropdown-item mouseCursor" (click)="deleteMessage(m,'DeleteForEveryone',true)">Remove
+                      For Everyone</a></li>
+                </ul> -->
+              </section>
+
+              <div class="d-flex justify-content-end mb-4" *ngIf="m.type==='sent' && !m.isSenderDeleted">
+                <div class="msg_cotainer_send">
+                  {{m.content}}
+                  <span class="msg_time_send">8:55 AM, Today</span>
+                </div>
+                <div class="img_cont_msg">
+                  <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
+                    class="rounded-circle user_img_msg">
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="input-group">
+            <textarea name="" [(ngModel)]="message" class="form-control type_msg"
+              placeholder="Type your message..."></textarea>
+            <div class="input-group-append" (click)="SendDirectMessage()">
+              <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
